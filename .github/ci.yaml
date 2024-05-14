@@ -1,0 +1,29 @@
+name: Python CI
+
+on: #executé quand.. push ... sur branches 'main' definir ici quand sont lancés les tests
+  push:
+    branches: 
+      - main 
+  pull_request:
+    branches: 
+      - main 
+
+jobs:
+  build: #correspond à la partie CI, les tests sont fait dans un serveur distant donc on doit le configurer (os,...)
+    runs-on: ubuntu-latest
+
+    steps: 
+      - uses: actions/checkout@v2 #recupere code qui est sur notre repo
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with: #versionde python souhaitée
+          python-version: 3.8
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Run tests
+        run: pytest
+      
